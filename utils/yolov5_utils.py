@@ -5,15 +5,15 @@ import subprocess
 
 def train(model_weights, model_name, img_size=1280, batch_size=8, epochs=30):
     os.environ['MKL_THREADING_LAYER'] = 'GNU'
-    os.chdir('../yolov5')
+    os.chdir('./yolov5')
     
     data_path = "./data/data.yaml"
-    dct = {"train": "../HeptaAutoML/dataset/images/train", "val": "../HeptaAutoML/dataset/images/val", "nc": len(CLASSES), "names":CLASSES.tolist()}
+    dct = {"train": "../dataset/images/train", "val": "../dataset/images/val", "nc": len(CLASSES), "names":CLASSES.tolist()}
 
     with open(data_path, "w") as f:
         yaml.dump(dct, f)
         
-    subprocess.call(['python3', '-m', 'torch.distributed.launch', '--nproc_per_node=1', 'train.py', 
+    subprocess.call(['python3', '-m', 'torch.distributed.launch', '--nproc_per_node=4', 'train.py', 
          '--weights', model_weights, 
          '--img', str(img_size),
          '--batch', str(batch_size),
@@ -21,8 +21,8 @@ def train(model_weights, model_name, img_size=1280, batch_size=8, epochs=30):
          '--data', data_path, 
          '--cfg', f"./models/{model_weights.split('.')[0]}.yaml",
          '--name', model_name,
-         '--device', '0'])
-    os.chdir('../HeptaAutoML')
+         '--device', '0,2,3,4'])
+    os.chdir('../')
 
 
 def create_dataset(annotations, dataset_type):
@@ -51,4 +51,3 @@ def create_dataset(annotations, dataset_type):
                 f"{category_idx} {x1 + bbox_width / 2} {y1 + bbox_height / 2} {bbox_width} {bbox_height}\n"
                 )
     
-

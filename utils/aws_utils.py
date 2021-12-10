@@ -30,7 +30,7 @@ def download(image_url, image_id, aws_key, aws_secret):
         return contents
     except ClientError as e:
         print(f"Error occured while downloading {image_url}: {e}")
-        # config.FAILED_IMAGES_URLS.append(image_url)
+        config.FAILED_IMAGES_URLS.append(image_url)
 
 
 def download_images(image_list, image_ids, aws_key, aws_secret):
