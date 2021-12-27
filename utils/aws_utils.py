@@ -1,6 +1,5 @@
-import utils.config as config
 import pandas as pd
-
+import json
 import boto3
 
 from multiprocessing.dummy import Pool as ThreadPool
@@ -30,7 +29,6 @@ def download(image_url, image_id, aws_key, aws_secret):
         return contents
     except ClientError as e:
         print(f"Error occured while downloading {image_url}: {e}")
-        config.FAILED_IMAGES_URLS.append(image_url)
 
 
 def download_images(image_list, image_ids, aws_key, aws_secret):
@@ -52,6 +50,24 @@ def split_bucket_and_key(url):
     return bucket, key
 
 
+def get_input_df(aws_access_key_id, aws_secret_access_key, csv_bucket, csv_key):
+    session = Session(aws_access_key_id=aws_access_key_id,
+                      aws_secret_access_key=aws_secret_access_key)
+
+    s3 = session.resource('s3', use_ssl=False)
+    obj = s3.Object(csv_bucket, csv_key).get()
+    temp = BytesIO(obj['Body'].read())
+    df = pd.read_csv(temp)
+    return df
+
+
+def read_json_from_s3(s3_obj, bucket, file_path):
+    obj = s3_obj.Object(bucket, file_path)
+    data = obj.get()['Body'].read().decode('utf-8')
+    json_data = json.loads(data) 
+    return json_data
+
+
 def upload_file_to_s3(s3_obj, bucket_name, s3_path, file_path, file_name):
     bucket = s3_obj.Bucket(bucket_name)
-    bucket.upload_file(file_path, s3_path + file_name + '.pt')
+    bucket.upload_file(file_path, s3_path + file_name)

@@ -1,1 +1,0 @@
-FAILED_IMAGES_URLS = []
