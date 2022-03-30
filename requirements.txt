@@ -20,3 +20,5 @@ librosa
 mlflow 
 timm 
 tqdm
+boto3
+botocore

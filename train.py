@@ -1,14 +1,8 @@
 import numpy as np
-import pandas as pd
 import argparse
 import os
-import cv2
-import random
-import string
-import requests
 import json
 
-from tqdm import tqdm
 from boto3.session import Session
 from sklearn.model_selection import train_test_split
 
@@ -33,8 +27,7 @@ if __name__ == "__main__":
     models_config = read_json_from_s3(s3, 'hepta-ml-model-weights', 'config/models_config.json')
 
     if data['model_name'] in models_config:
-        print(f"The model with name {data['modelKey']} already exist in models_config.json")
-        raise
+        raise RuntimeError(f"The model with name {data['modelKey']} already exist in models_config.json")
 
     CLASSES = np.array([cl['name'] for cl in data['classes']])
     MODEL_NAME = data['model_name']
