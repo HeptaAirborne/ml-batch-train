@@ -7,7 +7,7 @@ from boto3.session import Session
 from sklearn.model_selection import train_test_split
 
 from utils.yolov5_utils import train, create_dataset
-from utils.aws_utils import get_ssm_secret, download_images, split_bucket_and_key, get_input_df, read_json_from_s3, upload_file_to_s3
+from utils.aws_utils import download_images, split_bucket_and_key, get_input_df, read_json_from_s3, upload_file_to_s3
 
 
 if __name__ == "__main__":
