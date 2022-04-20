@@ -52,6 +52,8 @@ if __name__ == "__main__":
     create_dataset(annotations[annotations.image_id.isin(train_data)], 'train', CLASSES)
     create_dataset(annotations[annotations.image_id.isin(val_data)], 'val', CLASSES)
     print('Datasets created.')
+    
+    print( val_data['image_id'] )
 
     # print("Training model...")
     # try:
