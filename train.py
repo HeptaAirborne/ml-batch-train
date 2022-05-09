@@ -55,22 +55,22 @@ if __name__ == "__main__":
     
     print( val_data['image_id'] )
 
-    # print("Training model...")
-    # try:
-    #     train(MODEL_TYPE, MODEL_NAME, CLASSES, IMG_SIZE, BACTH_SIZE, EPOCHS)
-    # except Exception as e:
-    #     print("Error occured: {e}")
-    # print("Training finished.")
+    print("Training model...")
+    try:
+        train(MODEL_TYPE, MODEL_NAME, CLASSES, IMG_SIZE, BACTH_SIZE, EPOCHS)
+    except Exception as e:
+        print("Error occured: {e}")
+    print("Training finished.")
 
-    # print("Saving model weights to S3...")
-    # upload_file_to_s3(s3, 'hepta-ml-model-weights', '', f'./runs/train/{MODEL_NAME}/weights/best.pt',
-    #                   MODEL_NAME + '.pt')
+    print("Saving model weights to S3...")
+    upload_file_to_s3(s3, 'hepta-ml-model-weights', '', f'./runs/train/{MODEL_NAME}/weights/best.pt',
+                      MODEL_NAME + '.pt')
 
-    # print("Adding model setting to models_config.json")
-    # models_config[MODEL_NAME] = {'classes': data['classes']}
+    print("Adding model setting to models_config.json")
+    models_config[MODEL_NAME] = {'classes': data['classes']}
 
-    # with open('models_config.json', 'w') as f:
-    #     json.dump(models_config, f)
+    with open('models_config.json', 'w') as f:
+        json.dump(models_config, f)
 
-    # upload_file_to_s3(s3, 'hepta-ml-model-weights', 'config/', './models_config.json', 'models_config.json')
+    upload_file_to_s3(s3, 'hepta-ml-model-weights', 'config/', './models_config.json', 'models_config.json')
     print("Job completed!")
