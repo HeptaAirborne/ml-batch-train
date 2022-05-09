@@ -32,7 +32,7 @@ def download(image_url, image_id, aws_key, aws_secret):
 
 
 def download_images(image_list, image_ids, aws_key, aws_secret):
-    pool = ThreadPool(len(image_list))
+    pool = ThreadPool(4)
     arglist = list(zip(image_list, image_ids,
                        [aws_key] * len(image_list),
                        [aws_secret] * len(image_list)))

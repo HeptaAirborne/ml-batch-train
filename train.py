@@ -21,8 +21,10 @@ if __name__ == "__main__":
     s3 = session.resource('s3', verify=False, use_ssl=False)
 
     data = read_json_from_s3(s3, 'hepta-ml-model-weights', 'config/train_params.json')
+    print('Loading annotations')
     annotations = get_input_df(opt.aws_id, opt.aws_secret, data['csv_bucket'], data['csv_key'])
 
+    print('Loading models config')
     models_config = read_json_from_s3(s3, 'hepta-ml-model-weights', 'config/models_config.json')
 
     if data['model_name'] in models_config:
@@ -52,8 +54,9 @@ if __name__ == "__main__":
     create_dataset(annotations[annotations.image_id.isin(train_data)], 'train', CLASSES)
     create_dataset(annotations[annotations.image_id.isin(val_data)], 'val', CLASSES)
     print('Datasets created.')
-    
-    print( val_data['image_id'] )
+
+    print('Validation set:')
+    print(val_data)
 
     print("Training model...")
     try:
