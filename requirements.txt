@@ -1,4 +1,4 @@
-torch==1.7.0
+torch==1.10.1
 numpy
 pandas
 matplotlib
@@ -8,4 +8,4 @@ botocore
 requests
 opencv-python
 scikit-learn==1.0.2
-PyYAML==5.3.1
+PyYAML==5.4.1
